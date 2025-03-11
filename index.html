@@ -17,7 +17,7 @@
         }
 
         .navbar {
-            width: 70vw;
+            width: 100vw;
             height: 10vh;
             background-color: #F9F6F2;
             display: flex;
@@ -25,7 +25,7 @@
             position: absolute;
             top: 0vw;
             left: 0vw;
-            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
             z-index: 1;
             gap: 4vw;
         }
@@ -134,8 +134,33 @@
             height: auto;
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            position: absolute;
+            top: 31px;
+            right: 35px;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 4px;
+            background: #8f7872;
+            transition: 0.3s;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            width: 100%;
+        }
+
         /* Mobile adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .nav-links {
                 display: none;
             }
@@ -159,11 +184,64 @@
                 text-align: justify; /* Center the text */
             }
             .explore-btn {
-                left: 38vw;
+                left: 40vw;
                 scale: 1.5;
                 top: 79vh;
                 font-size: 5vw;
                 border-radius: 1vw;
+            }
+            .top-nav {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        
+            .top-nav ul {
+                display: flex;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+                justify-content: center;
+                transition: max-height 0.3s ease-in-out;
+            }
+        
+            .nav-links {
+                position: absolute;
+                top: 13vh;
+                width: 100%;
+                background: #f8f6f2;
+                text-align: center;
+                overflow: hidden;
+                max-height: 0;
+                transition: 0.3s ease-in-out;
+                display: flex;
+                flex-direction: column;
+                opacity: 0;
+            }
+
+        
+            .nav-links.active {
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                padding-bottom: 25px;
+                top: 13vh;
+                max-height: 250%;
+                transition: 0.3s ease-in-out;
+                opacity: 100%;
+                padding-bottom: 10px;
+                z-index: 5;
+            }
+        
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 10;
+                
+            }
+        
+            .hamburger div {
+                width: 30px;
+                height: 3px;
+                background-color: #8f7872;
+                
             }
         }
 
@@ -175,7 +253,7 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
-            <img style="user-select: none;" draggable="false" src="images/HEADERLOGO.png">
+            <img style="user-select: none;" draggable="false" src="images/HeaderLogo.png">
         </div>
         <div class="nav-links">
             <a href="#">SERVICES</a>
@@ -184,6 +262,12 @@
             <a href="#">ABOUT</a>
             <a href="#">CONTACT US</a>
         </div>
+                        <!-- MOBILE MENU-->
+                        <div class="hamburger" onclick="toggleMenu()">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
     </nav>
 
     <!-- Main Content -->
@@ -203,6 +287,47 @@
 
     <!-- Fixed Image on the Right -->
     <img class="fixed-image" style="user-select: none;" draggable="false" src="images/homepage/hompag.png">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuButton = document.querySelector(".hamburger");
+            const navLinks = document.querySelector(".nav-links");
+        
+            function toggleMenu() {
+                if (navLinks.classList.contains("active")) {
+                    navLinks.style.opacity = "0";  
+                    navLinks.style.transform = "translateY(-10px)";
+                    
+                    setTimeout(() => {
+                        navLinks.classList.remove("active");
+                        navLinks.style.visibility = "hidden"; // Hide after animation
+                    }, 300);
+                } else {
+                    navLinks.style.visibility = "visible"; // Show before animation starts
+                    navLinks.classList.add("active");
+                    navLinks.style.opacity = "1";
+                    navLinks.style.transform = "translateY(0)";
+                }
+            }
+        
+            menuButton.addEventListener("click", toggleMenu);
+        
+            // Fix disappearing navbar when resizing back to desktop
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 900) {
+                    navLinks.classList.remove("active");
+                    navLinks.style.visibility = "visible"; // Ensure it stays visible in laptop view
+                    navLinks.style.opacity = "1";
+                    navLinks.style.transform = "translateY(0)";
+                } else {
+                    navLinks.style.visibility = "hidden"; // Hide again if mobile
+                    navLinks.style.opacity = "0";
+                    navLinks.style.transform = "translateY(-10px)";
+                }
+            });
+        });
+        
+    </script>
 
 </body>
 </html>
